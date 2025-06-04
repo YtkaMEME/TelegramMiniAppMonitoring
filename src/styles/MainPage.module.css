@@ -1,0 +1,131 @@
+.MainPage {
+    /*max-width: 800px;*/
+    margin: 0 auto;
+    padding: 24px;
+    background-color: #e3f8fb;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 24px;
+}
+
+.addBtn {
+    background-color: #e0f7ff;
+    border: 1px solid #a3d7ef;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 300px;
+    display: block;
+    transition: background 0.3s;
+}
+
+.addBtn:hover {
+    background-color: #bdefff;
+}
+
+.buttonRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 24px;
+    padding: 16px;
+}
+
+.submitBtn {
+    background-color: #4b9fbf;
+    color: white;
+    border: none;
+    padding: 12px 32px;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.submitBtn:hover {
+    background-color: #3c8cad;
+}
+
+.clearBtn {
+    background: none;
+    border: none;
+    color: #3c8cad;
+    font-weight: 500;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 12px;
+    transition: color 0.2s;
+}
+
+.clearBtn:hover {
+    color: #2b6f8b;
+}
+
+.footerNote {
+    font-size: 14px;
+    color: #555;
+    margin-top: 16px;
+    text-align: center;
+}
+
+.navbar {
+    display: flex;
+    justify-content: flex-start; /* выравнивание влево */
+    padding: 10px 20px;
+    /* background-color: #f9f9f9; светлый фон страницы */
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 10px;
+}
+
+.tabButton {
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: #333;
+    padding: 10px 15px;
+    margin-right: 20px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.tabButton:hover {
+    color: #000;
+}
+
+.activeTab::after {
+    content: "";
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: #00a6fb;; /* подчеркивание на 2 тона темнее фона */
+    border-radius: 2px;
+}
+
+.loader {
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #3498db;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+  margin: 50px auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

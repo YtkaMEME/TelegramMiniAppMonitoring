@@ -1,0 +1,75 @@
+.block {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 20px;
+    background: #fff;
+    position: relative;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.removeBtn {
+    background-color: #f3f4f6;     /* светло-серый с оттенком синего */
+    border: 1px solid #d1d5db;     /* мягкий серый */
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 4px;
+    color: #6b7280;                /* нейтральный тёмно-серый */
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.removeBtn:hover {
+    background-color: #e5e7eb;     /* чуть темнее при наведении */
+    color: #374151;                /* немного темнее текст */
+}
+
+
+.label {
+    display: block;
+    font-weight: 500;
+    margin-top: 12px;
+    margin-bottom: 6px;
+}
+
+.input {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+.textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    resize: vertical;
+    min-height: 80px;
+}
+
+.select {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+.textarea {
+    min-height: 80px;
+}
