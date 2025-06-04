@@ -16,17 +16,26 @@ db.exec(`
   )
 `);
 
+interface CalculationResult {
+  id: number;
+  sampleSize: number;
+  targetPol: string;
+  targetAge: string;
+  targetArt: string;
+  created_at: string;
+}
+
 export async function GET() {
-    const row = db.prepare('SELECT * FROM calculation_results ORDER BY created_at DESC LIMIT 1').get();
+  const row = db.prepare('SELECT * FROM calculation_results ORDER BY created_at DESC LIMIT 1').get() as CalculationResult;
 
-    if (!row) {
-        return NextResponse.json({});
-    }
+  if (!row) {
+    return NextResponse.json({});
+  }
 
-    return NextResponse.json({
-        sampleSize: row.sampleSize,
-        targetPol: JSON.parse(row.targetPol),
-        targetAge: JSON.parse(row.targetAge),
-        targetArt: JSON.parse(row.targetArt)
-    });
+  return NextResponse.json({
+    sampleSize: row.sampleSize,
+    targetPol: JSON.parse(row.targetPol),
+    targetAge: JSON.parse(row.targetAge),
+    targetArt: JSON.parse(row.targetArt),
+  });
 }

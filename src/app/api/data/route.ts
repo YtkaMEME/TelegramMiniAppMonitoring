@@ -2,6 +2,15 @@ import { NextResponse } from 'next/server';
 import Database from 'better-sqlite3';
 import path from 'path';
 
+// Определяем интерфейс для типизации строки из базы
+interface FormDataRow {
+  id: number;
+  menCount: string;
+  womenCount: string;
+  artSchools: string; // хранится как JSON-строка
+  ageGroups: string;  // хранится как JSON-строка
+}
+
 // Подключаемся к базе
 const db = new Database(path.resolve(process.cwd(), 'data/db.sqlite'));
 
@@ -17,7 +26,8 @@ db.exec(`
 `);
 
 export async function GET() {
-    const row = db.prepare('SELECT * FROM form_data ORDER BY id DESC LIMIT 1').get();
+    const row = db.prepare('SELECT * FROM form_data ORDER BY id DESC LIMIT 1').get() as FormDataRow;
+
     if (!row) {
         return NextResponse.json({});
     }

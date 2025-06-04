@@ -35,7 +35,7 @@ const ResultsBlock = () => {
 
             <div className={styles.subBlock}>
                 <label className={styles.label}>Объём выборки</label>
-                <input type="text" className={styles.input} value={data.sampleSize - 1} readOnly />
+                <input type="text" className={styles.input} value={(data.sampleSize - 1).toString()} readOnly />
             </div>
 
             <div className={styles.subBlock}>
@@ -43,7 +43,7 @@ const ResultsBlock = () => {
                 {Object.entries(data.targetPol).map(([key, value]) => (
                     <div key={key} className={styles.row}>
                         <input type="text" className={styles.input} value={key} readOnly />
-                        <input type="text" className={styles.countInput} value={Math.ceil(parseFloat(value) * data.sampleSize)- 1}  readOnly />
+                        <input type="text" className={styles.countInput} value={Math.ceil(value * data.sampleSize - 1).toString()} readOnly />
                     </div>
                 ))}
             </div>
@@ -53,7 +53,7 @@ const ResultsBlock = () => {
                 {Object.entries(data.targetAge).map(([key, value]) => (
                     <div key={key} className={styles.row}>
                         <input type="text" className={styles.input} value={key} readOnly />
-                        <input type="text" className={styles.countInput} value={Math.ceil(parseFloat(value) * data.sampleSize) - 1}  readOnly />
+                        <input type="text" className={styles.countInput} value={Math.ceil(value * data.sampleSize - 1).toString()} readOnly />
                     </div>
                 ))}
             </div>
@@ -63,7 +63,7 @@ const ResultsBlock = () => {
                 {Object.entries(data.targetArt).map(([key, value]) => (
                     <div key={key} className={styles.row}>
                         <input type="text" className={styles.input} value={key} readOnly />
-                        <input type="text" className={styles.countInput} value={Math.ceil(parseFloat(value) * data.sampleSize) - 1}  readOnly />
+                        <input type="text" className={styles.countInput} value={Math.ceil(value * data.sampleSize - 1).toString()} readOnly />
                     </div>
                 ))}
             </div>
