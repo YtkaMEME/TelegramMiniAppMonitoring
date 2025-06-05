@@ -3,8 +3,8 @@ import { exec } from 'child_process';
 
 export async function POST() {
   return new Promise((resolve) => {
-    const pythonPath = '/home/your_user/scripts/venv/bin/python';
-    const scriptPath = '/home/your_user/scripts/calculate.py';
+    const pythonPath = '/develop/Bot-Monitoring/venv/bin/python';
+    const scriptPath = '/develop/Bot-Monitoring/src/data_processing/calculate_for_web.py';
 
     exec(`${pythonPath} ${scriptPath}`, (error, stdout, stderr) => {
       if (error) {
