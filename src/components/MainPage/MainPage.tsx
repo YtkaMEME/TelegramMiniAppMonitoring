@@ -46,7 +46,8 @@ export default function MainPage() {
   const [womenCount, setWomenCount] = useState("");
   const [artSchools, setArtSchools] = useState<ArtSchool[]>([{ id: Date.now(), name: "", count: "" }]);
   const [ageGroups, setAgeGroups] = useState<AgeGroup[]>([{ id: Date.now(), range: "", count: "" }]);
-
+  const [user, setUserData] = useState<User | undefined>(undefined);
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -84,15 +85,18 @@ export default function MainPage() {
       }
     };
 
+    init()
+    initData.restore();
+    let user_data = initData.user()
+    setUserData(user_data)
+
     fetchData();
   }, []);
 
   const addArtSchool = () => {
     setArtSchools([...artSchools, { id: Date.now() + Math.random(), name: "", count: "" }]);
   };
-  const [user, setUserData] = useState<User | undefined>(undefined);
-
-
+  
   const addAgeGroup = () => {
     setAgeGroups([...ageGroups, { id: Date.now() + Math.random(), range: "", count: "" }]);
   };
@@ -107,21 +111,6 @@ export default function MainPage() {
       group.id === id ? { ...group, [field as keyof AgeGroup]: value } : group
     ));
   };
-
-  useEffect(() => {
-    console.log("hello")
-    init()
-    initData.restore();
-    let user_data = initData.user()
-    setUserData(user_data)
-
-    if (user_data !== undefined){
-      if (user_data.id !== 864146808){
-          setIsLoading(true);
-      }
-    }
-
-  }, []);
 
   const removeArtSchool = (id: number) => {
     setArtSchools(artSchools.filter((school) => school.id !== id));
@@ -167,6 +156,12 @@ export default function MainPage() {
   if (isLoading) {
     return <div className={styles.loader}></div>;
   }
+
+  if (user !== undefined){
+      if (user.id != 864146808){
+          setIsLoading(true);
+      }
+    }
 
   return (
     <div className={styles.MainPage}>
