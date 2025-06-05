@@ -47,7 +47,8 @@ export default function MainPage() {
   const [artSchools, setArtSchools] = useState<ArtSchool[]>([{ id: Date.now(), name: "", count: "" }]);
   const [ageGroups, setAgeGroups] = useState<AgeGroup[]>([{ id: Date.now(), range: "", count: "" }]);
   const [user, setUserData] = useState<User | undefined>(undefined);
-  
+  const [allowedUsers_data, setAllowedUsers] = useState<number[]>([])
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -78,12 +79,22 @@ export default function MainPage() {
               : [{ id: Date.now(), range: "", count: "" }]
           );
         }
+
+        const allowedResponse = await fetch("/api/allowedUsers");
+
+        if (allowedResponse.ok) {
+          const allowedData = await allowedResponse.json();
+          const allowedUsers: number[] = allowedData.allowedUsers;
+          setAllowedUsers(allowedUsers)
+        }
+
       } catch (error) {
         console.error("Ошибка загрузки данных:", error);
       } finally {
         setIsLoading(false);
       }
     };
+    
 
     init()
     initData.restore();
@@ -121,29 +132,41 @@ export default function MainPage() {
   };
 
   const handleSubmit = async () => {
-    const dataToSend = {
-      menCount,
-      womenCount,
-      artSchools: artSchools.map(({ name, count }) => ({ name, count })),
-      ageGroups: ageGroups.map(({ range, count }) => ({ range, count })),
-    };
+  const dataToSend = {
+    menCount,
+    womenCount,
+    artSchools: artSchools.map(({ name, count }) => ({ name, count })),
+    ageGroups: ageGroups.map(({ range, count }) => ({ range, count })),
+  };
 
-    try {
-      const response = await fetch("/api/data", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(dataToSend),
-      });
+  try {
+    // Сохраняем данные
+    const response = await fetch("/api/data", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(dataToSend),
+    });
 
-      if (response.ok) {
-        alert("Данные успешно сохранены");
+    if (response.ok) {
+      alert("Данные успешно сохранены");
+
+      // Сразу после сохранения — запускаем Python-скрипт
+      const scriptResponse = await fetch("/api/run-python", { method: "POST" });
+
+      if (scriptResponse.ok) {
+        const result = await scriptResponse.json();
+        console.log("Результат скрипта:", result);
+        alert("Расчёт успешно произведён!");
       } else {
-        alert("Ошибка при сохранении");
+        alert("Ошибка при запуске скрипта");
       }
-    } catch (error) {
-      console.error("Ошибка при отправке данных:", error);
-      alert("Ошибка сети");
+    } else {
+      alert("Ошибка при сохранении");
     }
+  } catch (error) {
+    console.error("Ошибка при отправке данных:", error);
+    alert("Ошибка сети");
+  }
   };
 
   const handleClear = () => {
@@ -158,9 +181,9 @@ export default function MainPage() {
   }
 
   if (user !== undefined){
-      if (user.id != 864146808){
-          setIsLoading(true);
-      }
+      if (!allowedUsers_data.includes(user.id)) {
+            setIsLoading(true);
+          }
     }
 
   return (
