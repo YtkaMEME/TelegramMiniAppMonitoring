@@ -1,5 +1,6 @@
 import "@/styles/globals.css";
 import { Roboto } from "next/font/google";
+import Script from "next/script";
 
 const roboto = Roboto({
   subsets: ["latin", "cyrillic"],
@@ -12,17 +13,20 @@ export const metadata = {
 };
 
 export default function RootLayout({
-                                     children,
-                                   }: {
+  children,
+}: {
   children: React.ReactNode;
 }) {
   return (
-      <html lang="ru">
+    <html lang="ru">
+      <head />
       <body className={roboto.className}>
-      <div className="app-wrapper">
-        {children}
-      </div>
+        {/* <Script
+          src="https://telegram.org/js/telegram-web-app.js?57"
+          strategy="beforeInteractive"
+        /> */}
+        <div className="app-wrapper">{children}</div>
       </body>
-      </html>
+    </html>
   );
 }
