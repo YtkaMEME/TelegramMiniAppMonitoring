@@ -16,6 +16,15 @@ interface ArtSchool {
   count: string;
 }
 
+interface User {
+  id: number;
+  first_name: string;
+  last_name?: string;
+  username?: string;
+  language_code?: string;
+  // Можно добавить еще поля, если нужно
+}
+
 interface AgeGroup {
   id: number;
   range: string;
@@ -81,6 +90,8 @@ export default function MainPage() {
   const addArtSchool = () => {
     setArtSchools([...artSchools, { id: Date.now() + Math.random(), name: "", count: "" }]);
   };
+  const [user, setUserData] = useState<User | undefined>(undefined);
+
 
   const addAgeGroup = () => {
     setAgeGroups([...ageGroups, { id: Date.now() + Math.random(), range: "", count: "" }]);
@@ -98,9 +109,18 @@ export default function MainPage() {
   };
 
   useEffect(() => {
+    console.log("hello")
     init()
     initData.restore();
-    console.log(initData.user())
+    let user_data = initData.user()
+    setUserData(user_data)
+
+    if (user_data !== undefined){
+      if (user_data.id !== 864146808){
+          setIsLoading(true);
+      }
+    }
+
   }, []);
 
   const removeArtSchool = (id: number) => {
