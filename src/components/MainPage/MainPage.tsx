@@ -6,6 +6,7 @@ import ArtSchoolsBlock from "@/components/ArtSchoolsBlock/ArtSchoolsBlock";
 import AgeGroupsBlock from "@/components/AgeGroupsBlock/AgeGroupsBlock";
 import ResultsBlock from "../ResultsBlock/ResultsBlock";
 import styles from "@/styles/MainPage.module.css";
+import { init, initData } from '@telegram-apps/sdk';
 
 
 // Типы
@@ -31,49 +32,6 @@ interface FormDataFromApi {
 export default function MainPage() {
   const [activeTab, setActiveTab] = useState<"calculation" | "results">("calculation");
   const [isLoading, setIsLoading] = useState(true);
-
-  const [telegramUserId, setTelegramUserId] = useState<number | null>(null);
-  const [accessDenied, setAccessDenied] = useState(false);
-
-
-  async function verifyAccess(userId: number) {
-    try {
-        const response = await fetch('/api/verify', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ userId }),
-        });
-
-        if (response.ok) {
-            const result = await response.json();
-            if (!result.allowed) {
-                setAccessDenied(true);
-            }
-        } else {
-            setAccessDenied(true);
-        }
-    } catch (e) {
-        console.error('Ошибка проверки доступа', e);
-        setAccessDenied(true);
-    }
-}
-
-  useEffect(() => {
-    if (typeof window !== 'undefined' && (window as any).Telegram?.WebApp) {
-        const tg = (window as any).Telegram.WebApp;
-        tg.expand();  // раскрываем окно на всю высоту
-
-        // Читаем Telegram userId
-        const userId = tg.initDataUnsafe?.user?.id;
-        console.log('Telegram user id:', userId);
-
-        // (1) Сохраняем userId в стейт
-        setTelegramUserId(userId);
-
-        // (2) Можно сразу дергать backend для проверки доступа:
-        verifyAccess(userId);
-    }
-}, []);
 
   const [menCount, setMenCount] = useState("");
   const [womenCount, setWomenCount] = useState("");
@@ -139,9 +97,11 @@ export default function MainPage() {
     ));
   };
 
-  // const { user } = useTelegram();
-
-  // console.log(user ? (`${user.first_name}, ${user.id}`): "Привет всем")
+  useEffect(() => {
+    init()
+    initData.restore();
+    console.log(initData.user())
+  }, []);
 
   const removeArtSchool = (id: number) => {
     setArtSchools(artSchools.filter((school) => school.id !== id));
@@ -188,13 +148,6 @@ export default function MainPage() {
     return <div className={styles.loader}></div>;
   }
 
-  if (accessDenied) {
-    return (
-        <div className={styles.accessDenied}>
-            Доступ запрещён. Вы не авторизованы для использования приложения.
-        </div>
-    );
-  }
   return (
     <div className={styles.MainPage}>
       <nav className={styles.navbar}>
