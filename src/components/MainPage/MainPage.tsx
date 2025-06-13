@@ -150,16 +150,6 @@ export default function MainPage() {
     if (response.ok) {
       alert("Данные успешно сохранены");
 
-      // Сразу после сохранения — запускаем Python-скрипт
-      const scriptResponse = await fetch("/api/run-python", { method: "POST" });
-
-      if (scriptResponse.ok) {
-        const result = await scriptResponse.json();
-        console.log("Результат скрипта:", result);
-        alert("Расчёт успешно произведён!");
-      } else {
-        alert("Ошибка при запуске скрипта");
-      }
     } else {
       alert("Ошибка при сохранении");
     }
